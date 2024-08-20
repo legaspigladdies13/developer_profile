@@ -32,16 +32,16 @@ class MainApp extends StatelessWidget {
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
 
-  Future<void> _launchURL(Uri url) async {
-    if (await canLaunchUrl(url)) {
-      await launchUrl(url);
-    } else {
-      throw 'Could not launch $url';
-    }
-  }
-
   @override
   State<ProfilePage> createState() => _ProfilePageState();
+}
+
+Future<void> _launchURL(Uri url) async {
+  //if (await canLaunchUrl(url)) {
+  await launchUrl(url);
+  // } else {
+  //  throw 'Could not launch $url';
+//  }
 }
 
 class _ProfilePageState extends State<ProfilePage> {
@@ -52,20 +52,75 @@ class _ProfilePageState extends State<ProfilePage> {
         title: Text('Developer Profile'),
       ),
       body: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(148),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.3),
-              blurRadius: 12,
-              spreadRadius: 2,
-              offset: Offset(4, 4),
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Container(
+                  height: 200,
+                  width: 200,
+                  margin: const EdgeInsets.only(top: 100),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(148),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.3),
+                        blurRadius: 15,
+                        spreadRadius: 60,
+                        offset: Offset(4, 4),
+                      ),
+                    ],
+                  ),
+                  child: Transform.scale(
+                    scale: 1.6,
+                    child: CircleAvatar(
+                      radius: 90,
+                      backgroundImage:
+                          AssetImage('assets/images/RDPRoyalslogo.jpg'),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 100),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                IconButton(
+                  iconSize: 40,
+                  icon: Icon(Icons.email),
+                  onPressed: () {
+                    _launchURL(
+                        Uri(scheme: 'mailto', path: 'example@example.com'));
+                  },
+                ),
+                IconButton(
+                  iconSize: 40,
+                  icon: Icon(Icons.web),
+                  onPressed: () {
+                    _launchURL(
+                      Uri.parse('https://www.linkedin.com'),
+                    );
+                  },
+                ),
+                IconButton(
+                  iconSize: 40,
+                  icon: Icon(Icons.code),
+                  onPressed: () {
+                    _launchURL(
+                      Uri.parse('https://www.Github.com'),
+                    );
+                  },
+                ),
+              ],
+            ),
+            Text(
+              'Flutter developer with experience in building beautiful and performant mobile app.',
+              style: TextStyle(fontSize: 16),
+              textAlign: TextAlign.center,
             ),
           ],
-        ),
-        child: CircleAvatar(
-          radius: 90,
-          backgroundImage: AssetImage('assets/images/rdp.jpg'),
         ),
       ),
     );
